@@ -342,6 +342,6 @@ n = height of the input image
 
 Formula using both padding - p and stride - s, where s != 0:
 ```
-(m + 2p  x  n + 2p  x  c) * (f x f x c) = ( (m + 2p - f) / s + 1) x ( (n + 2p - f) / s + 1) x c
+(m + 2p  x  n + 2p  x  c) * (f x f x c) = floor( ( (m + 2p - f) / s + 1) ) x floor( ( (n + 2p - f) / s + 1) ) x c
 ```
 
