@@ -6,9 +6,10 @@ That's why we use convolutional neural network.
 
 ## Table of Contents
 1. [Convolutional Neural Network From Sctrach](#convolutional-neural-network-from-sctrach)
-2. [Facial Expressions](#facial-expressions)
-3. [Data](#data)
-4. [Convolutional Layers](#convolutional-layers)
+2. [Table of Contents](#table-of-contents)
+3. [Facial Expressions](#facial-expressions)
+4. [Data](#data)
+5. [Convolutional Layers](#convolutional-layers)
    - [Convolutional Operations](#convolutional-operations)
    - [Padding](#padding)
    - [Stride](#stride)
