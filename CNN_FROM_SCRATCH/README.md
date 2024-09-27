@@ -4,8 +4,16 @@ This neural network is programmed from scratch, to understand how it works.
 This neural network is trained to recognize facial expressions and to classify each.  
 That's why we use convolutional neural network.
 
+## Table of Contents
+1. [Convolutional Neural Network From Sctrach](#convolutional-neural-network-from-sctrach)
+2. [Facial Expressions](#facial-expressions)
+3. [Data](#data)
+4. [Convolutional Layers](#convolutional-layers)
+   - [Convolutional Operations](#convolutional-operations)
+   - [Padding](#padding)
+   - [Stride](#stride)
 
-## Facial Expressions:
+## Facial Expressions
 - angry
 - disgust
 - fear
