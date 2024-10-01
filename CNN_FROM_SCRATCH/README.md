@@ -1,11 +1,14 @@
-# Convolutional Neural Network From Sctrach
+# Convolutional Neural Network From Scratch
 Do not expect this neural network to be as precise as from the frameworks.
 This neural network is programmed from scratch, to understand how it works.
 This neural network is trained to recognize facial expressions and to classify each.  
 That's why we use convolutional neural network.
+We train the model to predict a facial expression from person's face.  
+We provide an image of the person, it is NOT a real live prediction using a webcam.  
+A real live precition of facial expressions via webcam is in the CNN where actual frameworks are used.  
 
 ## Table of Contents
-1. [Convolutional Neural Network From Sctrach](#convolutional-neural-network-from-sctrach)
+1. [Convolutional Neural Network From Scratch](#convolutional-neural-network-from-scratch)
 2. [Table of Contents](#table-of-contents)
 3. [Facial Expressions](#facial-expressions)
 4. [Data](#data)
@@ -25,12 +28,20 @@ That's why we use convolutional neural network.
 
 
 ## Data
-Data is saved in the ./data/ directory.  
+Data is saved in the ./data_rgb/ or ./data_greyscale/ directory.  
 Data is separated into training set and validation - testing set.  
-Training set is in the ./data/test/ directory.  
-Validation - testing set is in the ./data/test/ directory
+Training set is in the ./data/train/ directory.  
+Validation - testing set is in the ./data/test/ directory.  
+./data_rgb/ provides RGB images of higher resolution, but it has fewer samples than ./data_greyscale/.  
+./data_greyscale/ provides greyscale images of 48 x 48 resolution, has much more samples than ./data_rgb/.  
 
-Data consists of images 48 x 48 in greyscale. In each image is a person, more specifically, person's face. This person's face has a specific facial expression.  
+Data consists of images. In each image is a person, more specifically, person's face. This person's face has a specific facial expression.  
+
+
+## Training
+To train the model, first all images of facial expressions are extracted.  
+Facial expression label names are converted into labels, these lables are one-hot encoded vector representations of the label names.  
+From each facial expression image, the facial landmark is created, which will be the input to the model.  
 
 
 ## Convolutional Layers
