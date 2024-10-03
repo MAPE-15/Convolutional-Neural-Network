@@ -1,11 +1,9 @@
 # Convolutional Neural Network From Scratch
 Do not expect this neural network to be as precise as from the frameworks.
 This neural network is programmed from scratch, to understand how it works.
-This neural network is trained to recognize facial expressions and to classify each.  
-That's why we use convolutional neural network.
-We train the model to predict a facial expression from person's face.  
-We provide an image of the person, it is NOT a real live prediction using a webcam.  
-A real live precition of facial expressions via webcam is in the CNN where actual frameworks are used.  
+This neural network is trained to recognize facial expressions and to classify each.
+We train the model to predict a facial expression from person's face in a static image.  
+A real live prediction of facial expressions via webcam is in the CNN where actual frameworks are used.  
 
 ## Table of Contents
 1. [Convolutional Neural Network From Scratch](#convolutional-neural-network-from-scratch)
@@ -30,8 +28,8 @@ A real live precition of facial expressions via webcam is in the CNN where actua
 ## Data
 Data is saved in the ./data_rgb/ or ./data_greyscale/ directory.  
 Data is separated into training set and validation - testing set.  
-Training set is in the ./data/train/ directory.  
-Validation - testing set is in the ./data/test/ directory.  
+Training set is in the ./train/ directory.  
+Validation - testing set is in the ./test/ directory.  
 ./data_rgb/ provides RGB images of higher resolution, but it has fewer samples than ./data_greyscale/.  
 ./data_greyscale/ provides greyscale images of 48 x 48 resolution, has much more samples than ./data_rgb/.  
 
@@ -39,10 +37,9 @@ Data consists of images. In each image is a person, more specifically, person's 
 
 
 ## Training
-To train the model, first all images of facial expressions are extracted.  
-Facial expression label names are converted into labels, these lables are one-hot encoded vector representations of the label names.  
-From each facial expression image, the facial landmark is created, which will be the input to the model.  
-
+To train the model, first for each facial expression a bunch of images are read and converted to normalized numpy arrays adn their labels.
+Label names (like "happy", "sad", etc...) are converted into labels, these labels are one-hot encoded vector representations of the label names.
+The input into the model will be the image numpy arrays, the output is a one-hot vector representing a predicted facial expression.
 
 ## Convolutional Layers
 Convolution layers consists of multiple filters / kernels.  
@@ -356,3 +353,126 @@ Formula using both padding - p and stride - s, where s != 0:
 (m + 2p  x  n + 2p  x  c) * (f x f x c) = floor( ( (m + 2p - f) / s + 1) ) x floor( ( (n + 2p - f) / s + 1) ) x c
 ```
 
+
+## Pooling Layers
+There are many pooling layers, in this project we will use Max Pooling and Average Pooling layers.
+
+Each polling layer constists of one pool.
+This pool can be of any size, let's say of size p x p x c. (f - width and height of the pool, c - number of channels) this pool is EMPTY.  
+We do not care about the pool values, we only care about the intersection of input image with this pool window.
+
+
+### Max Pooling Layer
+Reason to use a max pooling layer is simple.  
+To reduce size of an image - reduce dimensionality, and keep most of the important features of the image intact.  
+
+How does max pooling work?  
+The empty pool shifts thorughout the whole image with specific stride.  
+It takes the maximum value from the shifted window - the intersection, and saves it to the output.
+
+Let's say we have an input image of size (4 x 4) and pool of size (2 x 2), with stride = s = 2.
+
+|   |   |   |   |
+|---|---|---|---|
+| 2 | 3 | 2 | 3 |
+| 1 | 3 | 5 | 1 |   
+| 4 | 5 | 1 | 1 |
+| 5 | 0 | 0 | 1 |
+
+- input image of size (4 x 4)
+
+|   |   |
+|---|---|
+| - | - |
+| - | - |
+
+- empty pool of size (2 x 2)
+
+Result image after gone through max pooling layer.
+
+|   |   |
+|---|---|
+| 3 | 5 |
+| 5 | 1 |
+
+
+Important notes
+```
+Use of max pooling layer is optional.
+If you decide to use max pooling layer, always apply it after an image went through the convolutional layer. 
+You do not need to put a max pooling layer after the convolutional layer, rule o thumb: there must be always more convolutional layers than max pooling layers.
+
+Max pooling layer reduces dimensionality of the image -> training is faster -> model is faster.
+We do not need any parameters in max pooling layer, therefore there is nothing to be trained in the max pooling layer.
+```
+
+
+### Average Pooling Layer
+Reason to use an average pooling layer is also simple.  
+To reduce size of an image - reduce dimensionality, and keep most of the important features of the image intact.  
+
+The difference between max pooling layer is that the average pooling layer does not take a maximum value, but it takes an average value in the pooling window, which can help to retain more valuable information.  
+The max pooling layer does not have that smoothing effect than the average pooling layer.
+
+For some tasks where overall smooth features are important (e.g., facial recognition or medical image processing), average pooling may perform better than max pooling because it captures a broader representation of features.
+
+How does average pooling work?  
+The empty pool shifts thorughout the whole image with specific stride.  
+It takes the average value from the values in the shifted window - the intersection, and saves it to the output.
+
+Let's say we have an input image of size (4 x 4) and pool of size (2 x 2), with stride = s = 2.
+
+|   |   |   |   |
+|---|---|---|---|
+| 2 | 3 | 2 | 3 |
+| 1 | 3 | 5 | 1 |   
+| 4 | 5 | 1 | 1 |
+| 5 | 0 | 0 | 1 |
+
+- input image of size (4 x 4)
+
+|   |   |
+|---|---|
+| - | - |
+| - | - |
+
+- empty pool of size (2 x 2)
+
+Result image after gone through average pooling layer.
+
+|      |      |
+|------|------|
+| 2.25 | 2.75 |
+| 3.5  | 0.75 |
+
+
+Important notes
+```
+Use of average pooling layer is optional.
+If you decide to use average pooling layer, always apply it after an image went through the convolutional layer. 
+You do not need to put a average pooling layer after the convolutional layer, rule o thumb: there must be always more convolutional layers than average pooling layers.
+
+Average pooling layer reduces dimensionality of the image -> training is faster -> model is faster.
+We do not need any parameters in average pooling layer, therefore there is nothing to be trained in the average pooling layer.
+```
+
+### Max Pooling Layer vs Average Pooling Layer
+
+What max pooling layer and average pooling layer have in common?
+```
+Both reduce the size of an image - reduce dimensionality which helps to lower computational cost and memory usage.
+Both do not use any parameters and therefore they are non-trainable.
+```
+
+What is the difference between them?
+```
+Max pool takes the maximum value from the window, the average pool takes an average value between all values in the window.
+
+Max pool retains the strongest features in the window, the average pool retains an average intensity of features - smooths the output.
+
+Max pool is used to detect sharp, prominent features like edges or distinct features.
+Average pool is used when you want to keep more subtle features or when no single features dominates the image.
+
+Max pool often used in object detection or image classification.
+Average pool often used in facial expression or texture analysis.
+```
